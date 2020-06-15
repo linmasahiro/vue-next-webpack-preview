@@ -7,11 +7,14 @@
     <p>double: {{ state.double }}</p>
     <p>count1: {{ count1 }}</p>
     <p>count2: {{ count2 }}</p>
+    <p>mouseX: {{ mouseX }}</p>
+    <p>mouseY: {{ mouseY }}</p>
   </div>
 </template>
 
 <script>
 import { ref, reactive, computed } from "vue";
+import { useMousePosition } from "./mouse";
 
 export default {
   setup() {
@@ -24,15 +27,21 @@ export default {
     let count2 = 0;
     const inc = () => {
       count1.value++;
-      count2++
-      state.count++
+      count2++;
+      state.count++;
     };
+
+    const { x, y } = useMousePosition();
+    let mouseX = x
+    let mouseY = y
 
     return {
       state,
       count1,
       count2,
-      inc
+      inc,
+      mouseX,
+      mouseY
     };
   }
 };
