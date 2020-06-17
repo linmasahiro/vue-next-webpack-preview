@@ -7,17 +7,21 @@
     <p>double: {{ state.double }}</p>
     <p>count1: {{ count1 }}</p>
     <p>count2: {{ count2 }}</p>
-    <p>mouseX: {{ mouseX }}</p>
-    <p>mouseY: {{ mouseY }}</p>
+    <child-component />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, reactive, computed } from "vue";
-import { useMousePosition } from "./mouse";
+import { provideStore } from "./MyStore";
+import Child from "./Child.vue";
 
 export default {
+  components: {
+    'child-component': Child
+  },
   setup() {
+    provideStore(ref([1, 2, 3]))
     const state = reactive({
       count: 0,
       double: computed(() => state.count * 2)
@@ -31,17 +35,11 @@ export default {
       state.count++;
     };
 
-    const { x, y } = useMousePosition();
-    let mouseX = x
-    let mouseY = y
-
     return {
       state,
       count1,
       count2,
-      inc,
-      mouseX,
-      mouseY
+      inc
     };
   }
 };
